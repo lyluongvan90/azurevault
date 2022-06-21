@@ -17,11 +17,19 @@ const secretName = "MySecretName";
 app.get('/secret', async (req, res) => {
     const result = await client.getSecret(secretName);
     console.log("result: ", result);
+    return res.send({
+        action: 'get secret',
+        result: result
+    });
 })
 
 app.post('/secret', async (req, res) => {
     const result = await client.setSecret(secretName, "MySecretValue");
     console.log("result: ", result);
+    return res.send({
+        action: 'set secret',
+        result: result
+    });
 })
 
 app.listen(port, () => {
