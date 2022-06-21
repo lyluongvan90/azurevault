@@ -1,0 +1,16 @@
+{
+  "name": "azurevault",
+  "version": "1.0.0",
+  "description": "azure key vault example",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/identity": "^2.0.5",
+    "@azure/keyvault-secrets": "^4.4.0",
+    "express": "^4.18.1"
+  }
+}
