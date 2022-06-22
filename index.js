@@ -31,7 +31,6 @@ const reCaptchaValue = `{
 app.get('/secret', async (req, res) => {
     const database = await client.getSecret(databaseKey);
     const recaptcha = await client.getSecret(reCaptchaKey);
-    console.log("result: ", result);
     return res.send({
         action: 'get secret',
         database,
