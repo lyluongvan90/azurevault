@@ -13,6 +13,19 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new SecretClient(url, credential);
 
 const secretName = "MySecretName";
+const secretValue = `[
+    "database" => [
+        "host" => "xxxx",
+        "port" => "3306",
+        "database" => "xxx",
+        "username" => "xxx",
+        "password" => "xxx"
+    ],
+    "recaptcha" => [
+        "sitekey" => "xxx-xx",
+        "secret" => "xxx-xx-xx"
+    ]
+]`;
 
 app.get('/secret', async (req, res) => {
     const result = await client.getSecret(secretName);
@@ -24,7 +37,7 @@ app.get('/secret', async (req, res) => {
 })
 
 app.post('/secret', async (req, res) => {
-    const result = await client.setSecret(secretName, "MySecretValue");
+    const result = await client.setSecret(secretName, secretValue);
     console.log("result: ", result);
     return res.send({
         action: 'set secret',
