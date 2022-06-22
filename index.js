@@ -12,36 +12,40 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 const client = new SecretClient(url, credential);
 
-const secretName = "MySecretName";
-const secretValue = `[
-    "database" => [
-        "host" => "xxxx",
-        "port" => "3306",
-        "database" => "xxx",
-        "username" => "xxx",
-        "password" => "xxx"
-    ],
-    "recaptcha" => [
-        "sitekey" => "xxx-xx",
-        "secret" => "xxx-xx-xx"
-    ]
-]`;
+const databaseKey = "database";
+const databaseValue = `{
+	"host": "xxxx",
+	"port": "xxxx",
+	"database": "xxxx",
+	"username": "xxxx",
+	"password": "xxx"
+}`;
+
+const reCaptchaKey = "recaptcha";
+const reCaptchaValue = `{
+	"sitekey": "xxx",
+	"secret": "xxxx"
+}`;
+
 
 app.get('/secret', async (req, res) => {
-    const result = await client.getSecret(secretName);
+    const database = await client.getSecret(databaseKey);
+    const recaptcha = await client.getSecret(reCaptchaKey);
     console.log("result: ", result);
     return res.send({
         action: 'get secret',
-        result: result
+        database,
+        recaptcha
     });
 })
 
 app.post('/secret', async (req, res) => {
-    const result = await client.setSecret(secretName, secretValue);
-    console.log("result: ", result);
+    const database = await client.setSecret(databaseKey, databaseValue);
+    const recaptcha = await client.setSecret(reCaptchaKey, reCaptchaValue);
     return res.send({
         action: 'set secret',
-        result: result
+        database,
+        recaptcha
     });
 })
 
