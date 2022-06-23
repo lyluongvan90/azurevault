@@ -11,7 +11,7 @@ const vaultName = "your-azure-key-vault";
 const url = `https://${vaultName}.vault.azure.net`;
 
 const client = new SecretClient(url, credential);
-
+// database key
 const databaseKey = "database";
 const databaseValue = `{
 	"host": "xxxx",
@@ -20,31 +20,40 @@ const databaseValue = `{
 	"username": "xxxx",
 	"password": "xxx"
 }`;
-
+// recaptcha key
 const reCaptchaKey = "recaptcha";
 const reCaptchaValue = `{
 	"sitekey": "xxx",
 	"secret": "xxxx"
 }`;
-
+// redis
+const redisKey = "redis";
+const redisValue = `{
+	"host": "xxxx",
+	"port": "xxxx"
+}`;
 
 app.get('/secret', async (req, res) => {
     const database = await client.getSecret(databaseKey);
     const recaptcha = await client.getSecret(reCaptchaKey);
+    const redis = await client.getSecret(redisKey);
     return res.send({
         action: 'get secret',
         database,
-        recaptcha
+        recaptcha,
+        redis
     });
 })
 
 app.post('/secret', async (req, res) => {
     const database = await client.setSecret(databaseKey, databaseValue);
     const recaptcha = await client.setSecret(reCaptchaKey, reCaptchaValue);
+    const redis = await client.setSecret(redisKey, redisValue);
     return res.send({
         action: 'set secret',
         database,
-        recaptcha
+        recaptcha,
+        redis
     });
 })
 
