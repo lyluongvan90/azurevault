@@ -32,16 +32,24 @@ const redisValue = `{
 	"host": "xxxx",
 	"port": "xxxx"
 }`;
+// mail
+const mailKey = "mail";
+const mailValue = `{
+	"host": "xxxx",
+	"port": "xxxx"
+}`;
 
 app.get('/secret', async (req, res) => {
     const database = await client.getSecret(databaseKey);
     const recaptcha = await client.getSecret(reCaptchaKey);
     const redis = await client.getSecret(redisKey);
+    const mail = await client.getSecret(mailKey);
     return res.send({
         action: 'get secret',
         database,
         recaptcha,
-        redis
+        redis,
+        mail
     });
 })
 
@@ -49,11 +57,13 @@ app.post('/secret', async (req, res) => {
     const database = await client.setSecret(databaseKey, databaseValue);
     const recaptcha = await client.setSecret(reCaptchaKey, reCaptchaValue);
     const redis = await client.setSecret(redisKey, redisValue);
+    const mail = await client.setSecret(mailKey, mailValue);
     return res.send({
         action: 'set secret',
         database,
         recaptcha,
-        redis
+        redis,
+        mail
     });
 })
 
