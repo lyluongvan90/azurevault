@@ -12,58 +12,43 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 const client = new SecretClient(url, credential);
 // database key
-const databaseKey = "database";
-const databaseValue = `{
-	"host": "xxxx",
-	"port": "xxxx",
-	"database": "xxxx",
-	"username": "xxxx",
-	"password": "xxx"
-}`;
-// recaptcha key
-const reCaptchaKey = "recaptcha";
-const reCaptchaValue = `{
-	"sitekey": "xxx",
-	"secret": "xxxx"
-}`;
-// redis
-const redisKey = "redis";
-const redisValue = `{
-	"host": "xxxx",
-	"port": "xxxx"
-}`;
-// mail
-const mailKey = "mail";
-const mailValue = `{
-	"host": "xxxx",
-	"port": "xxxx"
+const azureKey = "xxxx";
+const azureValue = `{
+	"database": {
+        "host": "xxxx",
+        "port": "xxxx",
+        "database": "xxxx",
+        "username": "xxxx",
+        "password": "xxx"
+    },
+    "recaptcha": {
+        "sitekey": "xxx",
+        "secret": "xxxx"
+    },
+    "redis": {
+        "host": "xxxx",
+        "port": "xxxx"
+    },
+    "mail": {
+        "host": "xxxx",
+        "port": "xxxx"
+    }
 }`;
 
 app.get('/secret', async (req, res) => {
-    const database = await client.getSecret(databaseKey);
-    const recaptcha = await client.getSecret(reCaptchaKey);
-    const redis = await client.getSecret(redisKey);
-    const mail = await client.getSecret(mailKey);
+    const azure = await client.getSecret(azureKey);
     return res.send({
         action: 'get secret',
-        database,
-        recaptcha,
-        redis,
-        mail
+        azure
     });
 })
 
 app.post('/secret', async (req, res) => {
-    const database = await client.setSecret(databaseKey, databaseValue);
-    const recaptcha = await client.setSecret(reCaptchaKey, reCaptchaValue);
-    const redis = await client.setSecret(redisKey, redisValue);
-    const mail = await client.setSecret(mailKey, mailValue);
+    const azure = await client.setSecret(azureKey, azureValue);
+    
     return res.send({
         action: 'set secret',
-        database,
-        recaptcha,
-        redis,
-        mail
+        azure
     });
 })
 
